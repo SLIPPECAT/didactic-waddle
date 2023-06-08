@@ -1,0 +1,3 @@
+equals를 재정의하려거든 hasCode도 정의하라
+
+equals를 재정의한 클래스 모두에서 hashCode도 재정의해야 한다.
