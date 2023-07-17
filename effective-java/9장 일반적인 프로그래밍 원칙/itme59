@@ -7,7 +7,7 @@
 
     자바 7부터는 Random을 더 이상 사용하지 않는게 좋다.
     ThreadLocalRandom으로 대체하면 대부분 잘 작동한다. Random보다 더 고품질의 무자위 수를 생성할 뿐만 아니라 속도도 더 빠르다.
-    System.out.println(ThreadLocalRandom.current().nextInt());
+    ex. ThreadLocalRandom.current().nextInt();
 
 
     포크=조인 풀이나 병렬 스트림에서는 SplittableRandom을 사용하라.
@@ -24,12 +24,12 @@
     라이브러리가 너무 방대하여 모든 API 문서를 공부하기는 벅차겠지만 자바 프로그래머라면 적어도 java.lang, java.util, java.io와 그 하위 패키지들에는 익숙해져야 한다.
     다른 라이브러리들은 필요할 때마다 익히자.
 
-  ex. 지정한 URL의 내용을 가져오는 명령줄 애플리케이션 (리눅스의 curl 명령어)
-      public static void main(String[] args) throws IOException {
-    		try (InputStream in = new URL(args[0]).openStream()) {
-    			in.transferTo(System.out);
-    		}
-    	}
+    ex. 지정한 URL의 내용을 가져오는 명령줄 애플리케이션 (리눅스의 curl 명령어)
+        public static void main(String[] args) throws IOException {
+      		try (InputStream in = new URL(args[0]).openStream()) {
+      			in.transferTo(System.out);
+      		}
+      	}
 
 4️⃣ 언급해둘 만한 라이브러리
   1. 컬렉션 프레임워크와 스트림 라이브러리
