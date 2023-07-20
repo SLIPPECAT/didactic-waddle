@@ -1,0 +1,26 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        // 뒷자리부터 시작해야 한다.
+        int length = digits.length;
+
+        for (int i = length -1; i >=0; i--){
+            if (digits[i] != 9){
+                digits[i] += 1;
+                return digits;
+            } else{
+                digits[i] = 0;
+            }
+        }
+
+        int[] result = new int[length + 1];
+        result[0] = 1;
+
+        return result;
+    }
+}
+
+접근은 좋았지만 앞에서부터 시작한 부분이 아쉬웠다.
+신경쓸 부분
+1. 뒷자리가 먼저 변하니 뒷자리에 초점을 두도록 하자.
+2. 분기처리에 신경쓰자. 어떤 경우들이 생길 수 있나
+3. 그리고 로직 만들면 끝!

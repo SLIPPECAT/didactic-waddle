@@ -1,0 +1,23 @@
+try-finally보다는 try-with-resources를 사용하라
+
+자바 라이브러리에는 close 메서드를 호출해 직접 닫아줘야 하는 자원이 많다.
+InputStream, OutputStream, java.sql.Connection 등이 좋은 예다.
+자원 닫기는 클라이언특 놓치기 쉬워서 예측할 수 없는 성능 문제로 이어지기도 한다.
+이런 자원 중 상당수가 안전망으로 finalizer를 활용하고는 있지만 finalizer는 그리 믿을만하지 못하다.
+
+전통적으로 자원이 제대로 닫힘을 보장하는 수단으로 try-finally가 쓰였다. 예외가 발생하거나 메서드에서 반환되는 경우를 포함해서 말이다.
+
+try-finally를 이용할 경우 두 번째 예외가 첫 번째 예외를 집어삼키는 경우가 생긴다.
+
+이러한 문제들을 자바 7이 투척한 try-with-resources 덕에 모두 해결되었다.
+이 구조를 사용하려면 해당 자원이 AutoCloseable 인터페이스를 구현해야 한다.
+단순히 void를 반환하는 close 메서드 하나만 덩그러니 정의한 인터페이스다.
+자바 라이브러리와 서드파티 라이브러리들의 수많은 클래스와 인터페이스가 이미 AutoCloseable을 구현하거나 확장해뒀다.
+닫아야 하는 자원을 뜻하는 클래스를 작성한다면 AutoCloseable을 반드시 구현하자
+
+try-with-resources는 try 뒤에 자원을 담는 형태를 띄고 있으며 짧고 읽기 수월할 뿐 아니라 진단히가도 훨씬 좋다.
+
+핵심 정리
+꼭 회숭해야 하는 자원을 다룰 때는 try-finally 말고, try-with-resources를 사용하자.
+예외는 없다. 코드는 더 짧고 분명해지고, 만들어지는 예외 정보도 훨씬 유용하다. try-finally로 작성하면 실용적이지 못할 만큼 코드가 지저분해지는 경우라도,
+tyr-with-resources로는 정확하고 쉽게 자원을 회수할 수 있다.

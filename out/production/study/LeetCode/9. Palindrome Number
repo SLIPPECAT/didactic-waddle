@@ -1,0 +1,42 @@
+Intuition
+회문인지 아닌지 검증하는 것이다.
+회문의 특징에 대해 생각해보고 시작해봤으면 좋았을 것 같다.
+회문은 1. 음수는 해당하지 않는다. 2. 회문은 대칭적이기 때문에 절반의 실행만 하더라도 검증 가능하다.
+
+Approach
+처음에는 맨 앞과, 맨 뒤의 값을 비교하는 것으로 시작해서 회문이 되면 true를 반환해주게 하였으나,
+해당 문제의 경우에는 false를 즉각적으로 반환하는 게 중요하다.
+해당하지 않는 경우라면, 끝까지 가지 않고 즉각적으로 false를 반환해 주자.
+
+Complexity
+Time complexity:
+시간복잡도는 O(n)입니다.
+Space complexity:
+고정된 크기를 가지므로 상수 공간을 활용, 따라서 O(1)의 공간 복잡도를 갖습니다.
+
+Code
+class Solution {
+    public boolean isPalindrome(int x) {
+        
+        if (x < 0){
+            return false;
+        }
+
+        boolean result = false;
+        String str = String.valueOf(x);
+        System.out.println("문자열: " + str);
+        int length = str.length();
+        System.out.println("길이: " + length);
+
+        int checkNum = 0;
+
+
+        for(int i=0; i < length / 2; i++){
+            if (str.charAt(i) != str.charAt(length - 1 - i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}

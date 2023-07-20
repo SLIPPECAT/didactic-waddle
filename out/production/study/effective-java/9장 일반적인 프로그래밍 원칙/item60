@@ -1,0 +1,70 @@
+⭐️ 정확한 답이 필요하다면 float와 double은 피하라
+
+1️⃣ 개요 : float와 double 타입은 과학과 공학 계산용으로 설계되었다.
+        이진 부동소수점 연산에 쓰이며, 넓은 번위의 수를 빠르게 정밀한 '근사치'로 계산하도록 세심하게 설계되었다. 따라서 정확한 결과가 필요할 때는 사용하면 안된다.
+        float와 double 타입은 특히 금융 관련 계산과는 맞지 않는다. 0.1 혹은 10의 읨의 거듭 제곱 수를 표현할 수 없기 때문이다.
+
+        ex. System.out.println(1.03 - 0.42); * 출력 결과 * : 0.6100000000000001
+
+        cf. System.out.println(1.03 + 0.42); * 출력 결과 * : 1.45  // +, *, / 연산은 잘 되는듯 하다?
+
+        ex. 다음과 같은 식의 결과로 얼마가 나올까?
+        	public static void main(String[] args) {
+          		double funds = 1.00;
+          		int itemsBought = 0;
+          		for (double price = 0.10; funds >= price; price += 0.10){
+          			funds -= price;
+          			itemsBought++;
+          		}
+          		System.out.println(itemsBought + "개 구입");
+          		System.out.println("잔돈(달러)" + funds);
+          }
+            출력 결과는 다음과 같다.
+            3개 구입
+            잔돈(달러)0.3999999999999999
+
+            ❗️ 금융 계산에서는 BigDecimal, int 혹은 long을 사용해야 한다.
+
+2️⃣ BigDecimal을 사용하는 경우
+  double 타입을 BigDecimal로 교체만 했다. BigDeciaml의 생성자 중 문자열을 받는 생성자를 사용했음에 주목하자.
+  계산시 부정확한 값이 사용되는 걸 막기 위해 필요한 조치다.
+
+  ex. 위의 예시를  아래와 같이 바꿔보자.
+      public static void main(String[] args) {
+        final BigDecimal TEN_CENTS = new BigDecimal(".10");
+
+        int itemsBought = 0;
+        BigDecimal funds= new BigDecimal("1.00");
+        for (BigDecimal price = TEN_CENTS;
+            funds.compareTo(price) >= 0;
+            price = price.add(TEN_CENTS)){
+          funds = funds.subtract(price);
+          itemsBought++;
+        }
+        System.out.println(itemsBought + "개 구입");
+        System.out.println("잔돈(달러)" + funds);
+      }
+  ❗️ BigDecimal의 단점 두 가지 : 기본 타입보다 쓰기가 훨씬 불편하고 느리다. 단발성 계산이라면 느리다는 문제는 무시할 수 있지만 쓰기 불편하다는 점은 못내 아쉬울 것이다.
+
+3️⃣ int, long을 사용하는 경우
+  이 경우에 다룰 수 있는 값의 크기가 제한되고, 소수점을 직접 관리해야 한다. 이번 예에서는 모든 계산을 달러 대신 센트로 수행하면 문제가 해결된다.
+  
+  ex.
+      public static void main(String[] args) {
+        int itemsBought = 0;
+        int funds = 100;
+        for (int price = 10; funds >= price; price += 10){
+          funds -= price;
+          itemsBought++;
+        }
+        System.out.println(itemsBought + "개 구입");
+        System.out.println("잔돈(달러)" + funds);
+      }
+      출력 결과는 다음과 같다.
+      4개 구입
+      잔돈(달러)0
+
+📖 핵심 정리 : 정확한 답이 필요한 계산에는 float이나 double을 피하라. 소수점 추적은 시스템에 맡기고, 코딩 시의 불편함이나 성능 저하를 신경 쓰지 않겠다면 BigDecimal을 사용하라.
+            BigDeciaml이 제공하는 여덟 가지 반올림 모드를 이용하여 반올림을 완벽히 제어할 수 있다. 법으로 정해진 반올림을 수행해야 하는 비즈니스 계산에서 아주 편리한 기능이다.
+            반면, 성능이 중요하고 소수점을 직접 추적할 수 있고 숫자가 너무 크지 않다면 intsk long을 사용하라. 숫자를 아홉 자리 십진수로 표현할 수 있다면 int를 사용하고,
+            열여덟 자리 십진수로 표현할 수 있다면 long을 사용하라. 열여덟 자리를 넘어가면 BigDeciaml을 사용해야 한다.
