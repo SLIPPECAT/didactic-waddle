@@ -28,5 +28,3 @@
     더 많은 정보를 제공하길 원한다면 표준 예외를 확장해서 사용해도 좋다. 단, 예외는 직렬화할 수 있다는 사실만 기억하자. 이 사실만으로도 나만의 예외를 새로 만들지 않아야 할 근거로 충분할 수 있다.
 
     인수 값이 무엇이었든 어파치 실패했을 거라면 IllegalStateException을 그렇지 않으면 IllegalArgumentException을 던지자.
-
-    🤔 음.. 그럼 내가 흔히 사용하고 있는 RuntimeException을 확장해서 사용하는 UserNotFoundException 이런 거를 줄이고 표준 예외를 사용하자는 걸까? 정도의 문제인걸까?
